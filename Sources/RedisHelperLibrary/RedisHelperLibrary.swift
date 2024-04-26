@@ -19,9 +19,9 @@ public class RedisManager {
                 configuration: .init(hostname: hostname, port: port),
                 boundEventLoop: eventLoopGroup.next()
             ).wait()
-            print("Connected to Redis")
+            print("🔱 Connected to Redis")
         } catch {
-            print("Failed to connect to Redis: \(error)")
+            print("❌ Failed to connect to Redis: \(error)")
             throw error
         }
     }
