@@ -19,23 +19,12 @@ public class RedisManager {
                 configuration: .init(hostname: hostname, port: port),
                 boundEventLoop: eventLoopGroup.next()
             ).wait()
-
-            // Проверка соединения через отправку команды PING
-            let result = try connection?.send(command: "PING").wait()
-
-            // Проверяем, что ответ сервера корректен
-            if let result = result, result.string == "PONG" {
-                print("🔱 Connected to Redis")
-            } else {
-                print(RedisError.connectionVerificationFailed.description)
-                throw RedisError.connectionVerificationFailed
-            }
+            print("🔱 Connected to Redis")
         } catch {
-            print(RedisError.connectionError.description)
-            throw RedisError.connectionError
+            print("❌ Failed to connect to Redis: \(error)")
+            throw error
         }
     }
-
 
     // Закрытие соединения
     public func disconnect() {
@@ -83,18 +72,4 @@ public class RedisManager {
 
 enum RedisError: Error {
     case connectionError
-    case connectionVerificationFailed
-    case commandFailed(String)
-
-    var description: String {
-        switch self {
-        case .connectionError:
-            return "❌ Не удалось подключиться к Redis."
-        case .connectionVerificationFailed:
-            return "❌ Соединение с Redis не подтверждено. Сервер не отвечает на PING."
-        case .commandFailed(let message):
-            return "❌ Ошибка выполнения команды Redis: \(message)"
-        }
-    }
 }
-
