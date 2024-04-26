@@ -14,9 +14,9 @@
 Установите Redis, используя Homebrew:
 ```bash
 brew install redis
-
+```
 Для запуска сервера Redis на локальной машине:
 ```bash
 redis-server
-
+```
 
